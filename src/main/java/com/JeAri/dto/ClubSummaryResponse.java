@@ -1,8 +1,8 @@
-package JeAri.JeAri.dto;
+package com.JeAri.dto;
 
-import JeAri.JeAri.model.Club;
-import JeAri.JeAri.model.ClubCategory;
-import JeAri.JeAri.model.RecruitmentStatus;
+import com.JeAri.model.Club;
+import com.JeAri.model.ClubCategory;
+import com.JeAri.model.RecruitmentStatus;
 import lombok.Getter;
 
 @Getter

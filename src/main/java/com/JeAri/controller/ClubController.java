@@ -1,7 +1,7 @@
-package JeAri.JeAri.controller;
+package com.JeAri.controller;
 
-import JeAri.JeAri.dto.ClubSummaryResponse;
-import JeAri.JeAri.service.ClubService;
+import com.JeAri.dto.ClubSummaryResponse;
+import com.JeAri.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

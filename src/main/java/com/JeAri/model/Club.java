@@ -1,4 +1,4 @@
-package JeAri.JeAri.model;
+package com.JeAri.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

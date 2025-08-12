@@ -1,4 +1,4 @@
-package JeAri.JeAri.model;
+package com.JeAri.model;
 
 public enum ClubCategory {
     ACADEMIC,   // 학술

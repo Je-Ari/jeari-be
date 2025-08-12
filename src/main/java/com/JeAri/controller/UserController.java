@@ -1,7 +1,7 @@
-package JeAri.JeAri.controller;
+package com.JeAri.controller;
 
-import JeAri.JeAri.model.User;
-import JeAri.JeAri.repository.UserRepository;
+import com.JeAri.model.User;
+import com.JeAri.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

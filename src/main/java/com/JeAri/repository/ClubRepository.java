@@ -1,6 +1,6 @@
-package JeAri.JeAri.repository;
+package com.JeAri.repository;
 
-import JeAri.JeAri.model.Club;
+import com.JeAri.model.Club;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClubRepository extends JpaRepository<Club, Integer> {

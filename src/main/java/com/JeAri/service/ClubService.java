@@ -1,11 +1,11 @@
-package JeAri.JeAri.service;
+package com.JeAri.service;
 
-import JeAri.JeAri.dto.ClubSummaryResponse;
-import JeAri.JeAri.model.Recruitment;
-import JeAri.JeAri.model.RecruitmentStatus;
-import JeAri.JeAri.repository.ClubRepository;
-import JeAri.JeAri.model.Club;
-import JeAri.JeAri.repository.RecruitmentRepository;
+import com.JeAri.dto.ClubSummaryResponse;
+import com.JeAri.model.Recruitment;
+import com.JeAri.model.RecruitmentStatus;
+import com.JeAri.repository.ClubRepository;
+import com.JeAri.model.Club;
+import com.JeAri.repository.RecruitmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

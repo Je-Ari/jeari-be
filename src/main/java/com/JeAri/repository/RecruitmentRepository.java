@@ -1,6 +1,6 @@
-package JeAri.JeAri.repository;
+package com.JeAri.repository;
 
-import JeAri.JeAri.model.Recruitment;
+import com.JeAri.model.Recruitment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

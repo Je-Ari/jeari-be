@@ -1,7 +1,5 @@
-package JeAri.JeAri.model;
+package com.JeAri.model;
 
-import JeAri.JeAri.model.Club;
-import JeAri.JeAri.model.RecruitmentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

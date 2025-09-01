@@ -1,8 +1,8 @@
-package com.JeAri.dto;
+package com.jeari.dto;
 
-import com.JeAri.model.Club;
-import com.JeAri.model.ClubCategory;
-import com.JeAri.model.RecruitmentStatus;
+import com.jeari.entity.Club;
+import com.jeari.entity.ClubCategory;
+import com.jeari.entity.RecruitmentStatus;
 import lombok.Getter;
 
 @Getter
@@ -12,14 +12,14 @@ public class ClubSummaryResponse {
     private final String description;
     private final ClubCategory category;
     private final String subcategory;
-    private final String recruitmentStatus;
+    private final RecruitmentStatus recruitmentStatus;
 
     public ClubSummaryResponse(Club club, RecruitmentStatus status) {
-        this.id = club.getClubId();
+        this.id = club.getId();
         this.name = club.getName();
         this.description = club.getDescription();
         this.category = club.getCategory();
         this.subcategory = club.getSubcategory();
-        this.recruitmentStatus = status.getLabel();
+        this.recruitmentStatus = status;
     }
 }

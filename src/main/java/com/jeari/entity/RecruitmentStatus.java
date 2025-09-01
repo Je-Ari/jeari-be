@@ -1,4 +1,4 @@
-package com.JeAri.model;
+package com.jeari.entity;
 
 import lombok.Getter;
 

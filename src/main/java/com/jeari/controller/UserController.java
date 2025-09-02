@@ -14,17 +14,9 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    // 회원 가입
-    @PostMapping
-    public User register(@RequestBody User user) {
-        return userRepository.save(user);           // 컨트롤러에서 레포지토리 직접 조작 지양
-    }
+    // 유저 정보
     @GetMapping
     public List<User> getUsers() {
         return userRepository.findAll();
     }
-
-    // 로그인
-
-    // 유저 정보
 }

@@ -35,23 +35,9 @@ public class User {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @NotNull
-    @Column(name = "id", nullable = false)
-    private Long id1;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role", nullable = false, length = 20)
+    private UserRole userRole = UserRole.USER;
 
-    @NotNull
-    @Column(name = "password_hash", nullable = false, length = Integer.MAX_VALUE)
-    private String passwordHash;
-    @Size(max = 10)
-    @NotNull
-    @Column(name = "role", nullable = false, length = 10)
-    private String role;
 
-/*
-TODO [리버스 엔지니어링] 필드를 생성하여 'user_role' 열에 매핑
-사용 가능한 액션: 대상 Java 타입 정의 | 현재 상태대로 주석 해제 | 열 매핑 제거
-    @ColumnDefault("'user'")
-    @Column(name = "user_role", columnDefinition = "user_role")
-    private Object userRole;
-*/
 }

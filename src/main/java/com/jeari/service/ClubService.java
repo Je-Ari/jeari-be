@@ -1,11 +1,14 @@
 package com.jeari.service;
 
+import com.jeari.dto.ClubInfoResponse;
 import com.jeari.dto.ClubSummaryResponse;
+import com.jeari.dto.CreateClubRequest;
 import com.jeari.entity.Recruitment;
 import com.jeari.entity.RecruitmentStatus;
 import com.jeari.repository.ClubRepository;
 import com.jeari.entity.Club;
 import com.jeari.repository.RecruitmentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +22,7 @@ public class ClubService {
     private final ClubRepository clubRepository;
     private final RecruitmentRepository recruitmentRepository;
 
-    // 동아리 정보 + 모집 여부 반환
+    // 동아리 목록 + 모집 여부 반환
     public List<ClubSummaryResponse> getAllClubs() {
         List<Club> clubs = clubRepository.findAll();    // 동아리 전부 가져오기
         clubs.forEach(club -> System.out.println(club.getName())); // 디버깅용 출력
@@ -46,6 +49,30 @@ public class ClubService {
     }
 
     // 동아리 추가
+    public Integer createClub(CreateClubRequest req) {
+
+        Club club = Club.builder()
+                .name(req.name())
+                .description(req.description())
+                .category(req.category())
+                .subcategory(req.subcategory())
+                .build();
+
+        return clubRepository.save(club).getId();
+    }
+
+    // 동아리 정보
+    public ClubInfoResponse getClubInfo(Integer id) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("동아리 없음: " + id));
+
+        return new ClubInfoResponse(
+                club.getName(),
+                club.getDescription(),
+                club.getCategory(),
+                club.getSubcategory()
+        );
+    }
 
     // 동아리 삭제
 

@@ -1,6 +1,7 @@
 package com.jeari.dto;
 
 import com.jeari.entity.ClubCategory;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -11,6 +12,7 @@ public record CreateClubRequest(
 
         String description,
 
+        @Schema(description = "동아리 카테고리", example = "ARTS")
         @NotBlank(message = "카테고리를 지정해 주세요.")
         ClubCategory category,
 

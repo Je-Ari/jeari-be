@@ -30,7 +30,7 @@ public class ClubService {
                 .map(club -> {
                     // 최신 recruitment이 있는지 확인
                     Optional<Recruitment> latest = recruitmentRepository
-                            .findTopByClub_IdOrderByStartDateDesc(club.getId());
+                            .findFirstByClubIdOrderByStartDateDesc(club.getId());
 
                     RecruitmentStatus status = latest
                             .map(Recruitment::getStatus)

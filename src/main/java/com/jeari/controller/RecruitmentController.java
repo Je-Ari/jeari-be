@@ -27,4 +27,13 @@ public class RecruitmentController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Map.of("recruitmentId", recruitmentId));
     }
+
+    @PostMapping("/recruitments/{recruitmentId}/join-requests")
+    public ResponseEntity<?> joinRequest(@PathVariable Integer recruitmentId, @Valid @RequestBody RecruitmentRequest req) {
+
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Map.of("recruitmentId", recruitmentId));
+    }
+
 }

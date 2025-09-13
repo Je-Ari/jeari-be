@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/clubs")
+@RequestMapping("/clubs")
 @RequiredArgsConstructor
 public class ClubController {
 
@@ -41,7 +41,7 @@ public class ClubController {
     // 동아리 회원 목록 조회
 
     @Operation(summary = "동아리 추가", description = "동아리 신규 추가 - admin 계정만 가능")
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createClub(@RequestBody CreateClubRequest req){    // 필요시 req DTO로 입력 파라메터 바꾸기
         Integer clubId = clubService.createClub(req);
 

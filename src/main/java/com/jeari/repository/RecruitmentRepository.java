@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> {
 
     // 클럽 ID로 최신 모집 공고 1개 조회 (startDate 기준 내림차순)
-    Optional<Recruitment> findTopByClub_IdOrderByStartDateDesc(Integer clubId);
+    Optional<Recruitment> findFirstByClubIdOrderByStartDateDesc(Integer clubId);
 }

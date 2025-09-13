@@ -1,5 +1,6 @@
 package com.jeari.config;
 
+import com.jeari.entity.ClubRole;
 import com.jeari.entity.UserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable) // 기본 인증 X
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 X
                 // .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // JWT 필터 연결 (있다면)
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth     // 인가
                         .requestMatchers(
                                 "/api/auth/login",       // 로그인 API (토큰 발급)
                                 "/api/token/refresh",    // 토큰 재발급
@@ -29,6 +30,9 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/club/create"
                         ).hasRole(UserRole.USER.name())
+                        .requestMatchers(
+                                "/clubs/{clubid}/recruitments"
+                        ).hasRole(ClubRole.PRESIDENT.name())
                         .anyRequest().authenticated()
                 );
 

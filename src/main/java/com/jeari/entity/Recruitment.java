@@ -1,11 +1,14 @@
 package com.jeari.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -13,6 +16,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "recruitment")
 public class Recruitment {
 
@@ -25,8 +29,9 @@ public class Recruitment {
     @Column(name = "recruitment_id", nullable = false)
     private Integer id;
 
-    @ColumnDefault("now()")
-    @Column(name = "created_at")
+    // Hibernate가 insert 시점에 자동 세팅
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, columnDefinition = "timestamptz")
     private OffsetDateTime createdAt;
 
     @NotNull
@@ -51,4 +56,34 @@ public class Recruitment {
     @Column(name = "question", length = Integer.MAX_VALUE)
     private String question;
 
+    @Builder
+    public Recruitment(
+            Club club,
+            LocalDate startDate,
+            LocalDate endDate,
+            RecruitmentStatus status,
+            String recruitTitle,
+            String recruitInfo,
+            String question
+    ) {
+        this.club = club;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.recruitTitle = recruitTitle;
+        this.recruitInfo = recruitInfo;
+        this.question = question;
+    }
+
+
+    // 상태 변경
+    public void changeStatus(RecruitmentStatus newStatus) {
+        this.status = newStatus;
+    }
+
+    // 날짜 무결성 간단 체크
+    @AssertTrue(message = "endDate는 startDate보다 빠를 수 없습니다.")
+    private boolean isValidDateRange() {
+        return endDate == null || !endDate.isBefore(startDate);
+    }
 }

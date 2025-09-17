@@ -10,7 +10,7 @@ public record LoginRequest(
         String studentId,
 
         @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
-        @Size(min = 8, max = 64, message = "비밀번호는 8자 이상 64자 이하로 입력해야 합니다.")
+        //@Size(min = 8, max = 64, message = "비밀번호는 8자 이상 64자 이하로 입력해야 합니다.")
         String password
 ) {
 }

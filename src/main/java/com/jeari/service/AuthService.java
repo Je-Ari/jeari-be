@@ -1,26 +1,31 @@
 package com.jeari.service;
 
-import com.jeari.dto.RegisterRequest;
+import com.jeari.dto.SignUpRequest;
+import com.jeari.entity.User;
 import com.jeari.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
+    public void signUp(SignUpRequest req) {
+        if(userRepository.findByStudentId(req.studentId()).isPresent()){
+            throw new IllegalArgumentException("이미 가입된 학번입니다.");
+        }
 
-    public void login(String studnet_id, String pw) {
-        // 로그인 로직
-        // 레포지토리로 pw 가져와서 비교
+        User user = User.builder()
+                .name(req.name())
+                .studentId(req.studentId())
+                .passwordHash(passwordEncoder.encode(req.password()))
+                .email(req.email())
+                .build();
 
-    }
-
-    public void register(RegisterRequest req) {
-        // 회원가입 로직
-        // 이미 있는 회원인지 확인 후 save
-        // return 뭐 줄지 고민
+        userRepository.save(user);
     }
 
 

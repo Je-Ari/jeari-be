@@ -18,47 +18,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity  //모든 요청 URL이 스프링 시큐리티의 필터체인을 거치도록 하는 어노테이션입니다.
 public class SecurityConfig {
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())   // ✅ CSRF 비활성화
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
+                .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable) // 기본 인증 X
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 X
+                // .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // JWT 필터 연결 (있다면)
+                .authorizeHttpRequests(auth -> auth     // 인가
                         .requestMatchers(
-                                "/auth/login",
-                                "/auth/register",
-                                "/docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"
+                                "/auth/**",       // 로그인 API (토큰 발급)
+                                "/docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"    // swagger
                         ).permitAll()
+                        .requestMatchers(
+                                "/club/create"
+                        ).hasAuthority(UserRole.ROLE_USER.name())
+                        .requestMatchers(
+                                "/clubs/{clubid}/recruitments"
+                        ).hasRole(ClubRole.PRESIDENT.name())
                         .anyRequest().authenticated()
                 );
 
         return http.build();
+
     }
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .httpBasic(AbstractHttpConfigurer::disable) // 기본 인증 X
-//                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 X
-//                // .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // JWT 필터 연결 (있다면)
-//                .authorizeHttpRequests(auth -> auth     // 인가
-//                        .requestMatchers(
-//                                "/auth/**",       // 로그인 API (토큰 발급)
-//                                "/docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html"    // swagger
-//                        ).permitAll()
-//                        .requestMatchers(
-//                                "/club/create"
-//                        ).hasAuthority(UserRole.ROLE_USER.name())
-//                        .requestMatchers(
-//                                "/clubs/{clubid}/recruitments"
-//                        ).hasRole(ClubRole.PRESIDENT.name())
-//                        .anyRequest().authenticated()
-//                );
-//
-//        return http.build();
-//
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {

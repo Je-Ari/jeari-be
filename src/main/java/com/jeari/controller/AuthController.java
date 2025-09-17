@@ -1,7 +1,7 @@
 package com.jeari.controller;
 
 import com.jeari.dto.LoginRequest;
-import com.jeari.dto.RegisterRequest;
+import com.jeari.dto.SignUpRequest;
 import com.jeari.service.AuthService;
 import com.jeari.service.JwtTokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,10 +63,10 @@ public class AuthController {
                 .body(Map.of("message", "Login success"));
     }
 
-    @PostMapping("/regist")
+    @PostMapping("/sign-up")
     @Operation(summary = "회원가입")
-    public ResponseEntity<?> regist(@Valid @RequestBody RegisterRequest req) {
-        authService.register(req);
+    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest req) {
+        authService.signUp(req);
 
         return ResponseEntity.ok(Map.of("message", "회원가입 성공"));
     }

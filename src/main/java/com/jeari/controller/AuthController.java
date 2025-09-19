@@ -1,5 +1,6 @@
 package com.jeari.controller;
 
+import com.jeari.config.CustomUserDetails;
 import com.jeari.dto.LoginRequest;
 import com.jeari.dto.SignUpRequest;
 import com.jeari.service.AuthService;
@@ -13,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ public class AuthController {
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.studentId(), req.password())
         );
-        UserDetails principal = (UserDetails) auth.getPrincipal();
+        CustomUserDetails principal = (CustomUserDetails) auth.getPrincipal();
         String access = jwtTokenProvider.generateAccessToken(principal);
         String refresh = jwtTokenProvider.generateRefreshToken(principal.getUsername());
 
@@ -60,7 +60,10 @@ public class AuthController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, refreshCookie.toString())
-                .body(Map.of("message", "Login success"));
+                .body(Map.of(
+                        "studentId", principal.getUsername(),
+                        "username", principal.getUsername()
+                ));
     }
 
     @PostMapping("/sign-up")

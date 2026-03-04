@@ -4,13 +4,22 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record LoginRequest(
+public record SignUpRequest(
+
+        @NotBlank(message = "이름은 필수 입력 값입니다.")
+        @Size(min = 1, max = 50, message = "이름은 50자 이하로 입력해야 합니다.")
+        String name,
+
         @NotBlank(message = "학번은 필수 입력 값입니다.")
         @Pattern(regexp = "\\d{10}", message = "학번은 숫자 10자리여야 합니다.")
         String studentId,
 
         @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
         //@Size(min = 8, max = 64, message = "비밀번호는 8자 이상 64자 이하로 입력해야 합니다.")
-        String password
+        String password,
+
+        @NotBlank(message = "이메일은 필수 입력 값입니다.")
+        @Size(min = 18, max = 100, message = "이메일은 100자 이하로 입력해야 합니다.")
+        String email
 ) {
 }

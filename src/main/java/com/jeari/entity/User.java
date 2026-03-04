@@ -3,17 +3,22 @@ package com.jeari.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.JdbcType;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
+
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
-@SQLDelete(sql = "UPDATE \"user\" SET is_deleted = true WHERE user_id = ?")     // user는 db 예약어 취급을 받을 수도 있어서 큰따옴표 처리
+@Table(name = "users")
+@SQLDelete(sql = "UPDATE \"users\" SET is_deleted = true WHERE user_id = ?")     // user는 db 예약어 취급을 받을 수도 있어서 큰따옴표 처리
 @SQLRestriction("is_deleted = false")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +44,13 @@ public class User {
     @Column(nullable = false, length = 100, unique = true)
     private String email;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
     @Column(name = "user_role", nullable = false, length = 20)
-    private UserRole userRole = UserRole.USER;
+    private UserRole userRole = UserRole.ROLE_USER;
 
+    @Builder.Default
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 

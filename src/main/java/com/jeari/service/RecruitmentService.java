@@ -1,6 +1,8 @@
 package com.jeari.service;
 
+import com.jeari.dto.RecruitmentListResponse;
 import com.jeari.dto.RecruitmentRequest;
+import com.jeari.entity.Club;
 import com.jeari.entity.Recruitment;
 import com.jeari.entity.RecruitmentStatus;
 import com.jeari.repository.ClubRepository;
@@ -9,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,4 +42,21 @@ public class RecruitmentService {
 
         return recruitmentRepository.save(recruitment).getId();
     }
+
+    public List<RecruitmentListResponse> getRecruitmentList(Integer clubId) {
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 동아리입니다."));
+
+        List<Recruitment> recruitmentList = recruitmentRepository.findByClubId(clubId);
+
+        return recruitmentList.stream()
+                .map(recruitment -> new RecruitmentListResponse(
+                        recruitment.getId(),
+                        recruitment.getRecruitTitle(),
+                        recruitment.getCreatedAt(),
+                        recruitment.getStatus()
+                ))
+                .toList();
+    }
+
 }

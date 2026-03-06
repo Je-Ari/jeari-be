@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/**",       // 로그인 API (토큰 발급)
                                 "/docs", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html",    // swagger
-                                "/clubs/{clubId}/recruitments" // 모집 공고 조회
+                                "/clubs/{clubId}/recruitments", "/recruitments/{recruitmentId}" // 모집 공고 조회
                         ).permitAll()
                         .requestMatchers(
                                 "/club/create"

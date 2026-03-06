@@ -2,6 +2,7 @@ package com.jeari.service;
 
 import com.jeari.dto.RecruitmentListResponse;
 import com.jeari.dto.RecruitmentRequest;
+import com.jeari.dto.RecruitmentResponse;
 import com.jeari.entity.Club;
 import com.jeari.entity.Recruitment;
 import com.jeari.entity.RecruitmentStatus;
@@ -21,6 +22,7 @@ public class RecruitmentService {
     final private ClubRepository clubRepository;
     final private RecruitmentRepository recruitmentRepository;
 
+    // 모집 공고 생성
     public Integer createRecruitment(Integer clubId, RecruitmentRequest req) {
         // 부모 존재 확인
         if (!clubRepository.existsById(clubId)) {
@@ -43,6 +45,7 @@ public class RecruitmentService {
         return recruitmentRepository.save(recruitment).getId();
     }
 
+    // 모집 공고 목록 반환
     public List<RecruitmentListResponse> getRecruitmentList(Integer clubId) {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 동아리입니다."));
@@ -59,4 +62,12 @@ public class RecruitmentService {
                 .toList();
     }
 
+    // 모집 공고 반환
+    public RecruitmentResponse getRecruitment(Integer recruitmentId) {
+        Recruitment recruitment = recruitmentRepository
+                .findById(recruitmentId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 삭제된 공고입니다."));
+
+        return RecruitmentResponse.from(recruitment);
+    }
 }

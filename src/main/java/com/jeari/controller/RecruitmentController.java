@@ -47,4 +47,11 @@ public class RecruitmentController {
         return ResponseEntity.ok(recruitmentService.getRecruitmentList(clubId));
     }
 
+    @GetMapping("/recruitments/{recruitmentId}")
+    @Operation(summary = "모집 공고 조회", description = "모집 공고 조회(공고 자체)")
+    public ResponseEntity<?> getRecruitment(@PathVariable Integer recruitmentId) {
+
+        return ResponseEntity.ok(recruitmentService.getRecruitment(recruitmentId));
+    }
+
 }

@@ -16,6 +16,8 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Getter
 @Setter
@@ -63,25 +65,24 @@ public class Recruitment {
 
     @Column(columnDefinition = "jsonb")
     @JdbcTypeCode(SqlTypes.JSON)
-    private List<ApplicationQuestion> question;
+    private List<RecruitmentQuestion> question;
 
     @Builder
     public Recruitment(
             Integer clubId,
             LocalDate startDate,
             LocalDate endDate,
-            RecruitmentStatus status,
             String recruitTitle,
             String recruitInfo,
-            List<ApplicationQuestion> question
+            List<RecruitmentQuestionRequest> question
     ) {
         this.clubId = clubId;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = status;
+        this.status = calculateStatus();
         this.recruitTitle = recruitTitle;
         this.recruitInfo = recruitInfo;
-        this.question = question;
+        this.question = setQuestionNum(question);
     }
 
 
@@ -94,5 +95,35 @@ public class Recruitment {
     @AssertTrue(message = "endDate는 startDate보다 빠를 수 없습니다.")
     private boolean isValidDateRange() {
         return endDate == null || !endDate.isBefore(startDate);
+    }
+
+    // 질문에 번호를 메기는 메서드
+    public List<RecruitmentQuestion> setQuestionNum(
+            List<RecruitmentQuestionRequest> requests
+    ) {
+        return IntStream.range(0, requests.size())
+                .mapToObj(i -> {
+                    RecruitmentQuestionRequest request = requests.get(i);
+
+                    return new RecruitmentQuestion(
+                            i+1,
+                            request.question(),
+                            request.required()
+                    );
+                })
+                .toList();
+    }
+
+    public RecruitmentStatus calculateStatus() {
+        LocalDate now = LocalDate.now();
+
+        if(now.isBefore(startDate)) {
+            return RecruitmentStatus.UPCOMING;
+        }
+        if(now.isAfter(endDate)) {
+            return RecruitmentStatus.CLOSED;
+        }
+
+        return RecruitmentStatus.OPEN;
     }
 }

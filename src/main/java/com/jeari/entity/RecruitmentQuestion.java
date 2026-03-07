@@ -1,6 +1,6 @@
 package com.jeari.entity;
 
-public record ApplicationQuestion(
+public record RecruitmentQuestion(
         Integer questionNum,
         String question,
         Boolean required

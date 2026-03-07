@@ -1,6 +1,6 @@
 package com.jeari.dto;
 
-import com.jeari.entity.ApplicationQuestion;
+import com.jeari.entity.RecruitmentQuestion;
 import com.jeari.entity.Recruitment;
 import com.jeari.entity.RecruitmentStatus;
 
@@ -18,7 +18,7 @@ public record RecruitmentResponse(
         RecruitmentStatus status,
         String recruitTitle,
         String recruitInfo,
-        List<ApplicationQuestion> question
+        List<RecruitmentQuestion> question
         ) {
     public static RecruitmentResponse from(Recruitment recruitment) {
         return new RecruitmentResponse(

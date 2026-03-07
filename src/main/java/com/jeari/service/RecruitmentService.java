@@ -30,14 +30,10 @@ public class RecruitmentService {
             throw new EntityNotFoundException("동아리 없음: " + clubId);
         }
 
-        RecruitmentStatus recruitmentStatus = Optional.ofNullable(req.status())
-                .orElse(RecruitmentStatus.OPEN);
-
         Recruitment recruitment = Recruitment.builder()
                 .clubId(clubId)
                 .startDate(req.startDate())   // 또는 req.startDate()
                 .endDate(req.endDate())
-                .status(recruitmentStatus)         // 기본값이 있다면 여기서 지정 가능
                 .recruitTitle(req.recruitTitle())
                 .recruitInfo(req.recruitInfo())
                 .question(req.question())

@@ -1,5 +1,6 @@
 package com.jeari.controller;
 
+import com.jeari.dto.ApplicationRequest;
 import com.jeari.dto.RecruitmentListResponse;
 import com.jeari.dto.RecruitmentRequest;
 import com.jeari.service.RecruitmentService;
@@ -23,22 +24,16 @@ public class RecruitmentController {
 
     final private RecruitmentService recruitmentService;
 
-    @PostMapping("/clubs/{clubid}/recruitments")
-    public ResponseEntity<?> createRecruitment(@PathVariable Integer clubid, @Valid @RequestBody RecruitmentRequest req) {
+    @PostMapping("/clubs/{clubId}/recruitments")
+    @Operation(summary = "모집 공고 작성", description = "모집 공고 생성")
+    public ResponseEntity<?> createRecruitment(@PathVariable Integer clubId, @Valid @RequestBody RecruitmentRequest req) {
 
-        Integer recruitmentId = recruitmentService.createRecruitment(clubid, req);
-
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(Map.of("recruitmentId", recruitmentId));
-    }
-
-    @PostMapping("/recruitments/{recruitmentId}/join-requests")
-    public ResponseEntity<?> joinRequest(@PathVariable Integer recruitmentId, @Valid @RequestBody RecruitmentRequest req) {
-
+        Integer recruitmentId = recruitmentService.createRecruitment(clubId, req);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Map.of("recruitmentId", recruitmentId));
     }
+
 
     @GetMapping("/clubs/{clubId}/recruitments")
     @Operation(summary = "모집 공고 목록 조회", description = "특정 동아리 모집 공고 목록 조회(공고 자체 x, 공고 리스트<- 제목, 작성일, 상태 등)")
@@ -53,5 +48,11 @@ public class RecruitmentController {
 
         return ResponseEntity.ok(recruitmentService.getRecruitment(recruitmentId));
     }
+
+//    @PostMapping("/recruitments/{id}/applications")
+//    public ResponseEntity<?> createApplication(@PathVariable Integer id, @RequestBody ApplicationRequest req) {
+//
+//        return ResponseEntity.ok(recruitmentService.applyToRecruitment(id, req));
+//    }
 
 }

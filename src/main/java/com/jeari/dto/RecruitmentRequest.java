@@ -1,6 +1,7 @@
 package com.jeari.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.jeari.entity.ApplicationQuestion;
 import com.jeari.entity.RecruitmentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record RecruitmentRequest(
         @NotNull
@@ -33,7 +35,7 @@ public record RecruitmentRequest(
         String recruitInfo,
 
         @Schema(description = "지원 질문(선택)")
-        String question
+        List<ApplicationQuestion> question
 ) {
     @AssertTrue(message = "endDate는 startDate보다 빠를 수 없습니다.")
     public boolean isValidDateRange() {

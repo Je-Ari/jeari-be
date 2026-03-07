@@ -9,10 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -59,7 +62,8 @@ public class Recruitment {
     private String recruitInfo;
 
     @Column(columnDefinition = "jsonb")
-    private String question;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private List<ApplicationQuestion> question;
 
     @Builder
     public Recruitment(
@@ -69,7 +73,7 @@ public class Recruitment {
             RecruitmentStatus status,
             String recruitTitle,
             String recruitInfo,
-            String question
+            List<ApplicationQuestion> question
     ) {
         this.clubId = clubId;
         this.startDate = startDate;

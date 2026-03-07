@@ -1,11 +1,12 @@
 package com.jeari.dto;
 
+import com.jeari.entity.ApplicationQuestion;
 import com.jeari.entity.Recruitment;
 import com.jeari.entity.RecruitmentStatus;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Date;
+import java.util.List;
 
 public record RecruitmentResponse(
         Integer id,
@@ -17,7 +18,7 @@ public record RecruitmentResponse(
         RecruitmentStatus status,
         String recruitTitle,
         String recruitInfo,
-        String question
+        List<ApplicationQuestion> question
         ) {
     public static RecruitmentResponse from(Recruitment recruitment) {
         return new RecruitmentResponse(

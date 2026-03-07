@@ -1,5 +1,6 @@
 package com.jeari.service;
 
+import com.jeari.dto.ApplicationRequest;
 import com.jeari.dto.RecruitmentListResponse;
 import com.jeari.dto.RecruitmentRequest;
 import com.jeari.dto.RecruitmentResponse;
@@ -70,4 +71,10 @@ public class RecruitmentService {
 
         return RecruitmentResponse.from(recruitment);
     }
+
+//    // 유저 가입 신청 처리
+//    public Integer applyToRecruitment(Integer recruitmentId, ApplicationRequest req) {
+//
+//
+//    }
 }

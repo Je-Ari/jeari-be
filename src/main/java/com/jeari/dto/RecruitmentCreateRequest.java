@@ -1,8 +1,6 @@
 package com.jeari.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.jeari.entity.RecruitmentQuestion;
-import com.jeari.entity.RecruitmentQuestionRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +10,7 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
-public record RecruitmentRequest(
+public record RecruitmentCreateRequest(
         @NotNull
         @Schema(example = "2025-09-15", description = "모집 시작일 (YYYY-MM-DD)")
         @JsonFormat(pattern = "yyyy-MM-dd")
@@ -30,7 +28,7 @@ public record RecruitmentRequest(
         String recruitInfo,
 
         @Schema(description = "지원 질문(선택)")
-        List<RecruitmentQuestionRequest> question
+        List<QuestionRequest> question
 ) {
     @AssertTrue(message = "endDate는 startDate보다 빠를 수 없습니다.")
     @Schema(hidden = true)

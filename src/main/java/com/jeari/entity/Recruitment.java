@@ -1,5 +1,6 @@
 package com.jeari.entity;
 
+import com.jeari.dto.QuestionRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,6 @@ import org.hibernate.type.SqlTypes;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Getter
@@ -74,7 +74,7 @@ public class Recruitment {
             LocalDate endDate,
             String recruitTitle,
             String recruitInfo,
-            List<RecruitmentQuestionRequest> question
+            List<QuestionRequest> question
     ) {
         this.clubId = clubId;
         this.startDate = startDate;
@@ -99,11 +99,11 @@ public class Recruitment {
 
     // 질문에 번호를 메기는 메서드
     public List<RecruitmentQuestion> setQuestionNum(
-            List<RecruitmentQuestionRequest> requests
+            List<QuestionRequest> requests
     ) {
         return IntStream.range(0, requests.size())
                 .mapToObj(i -> {
-                    RecruitmentQuestionRequest request = requests.get(i);
+                    QuestionRequest request = requests.get(i);
 
                     return new RecruitmentQuestion(
                             i+1,

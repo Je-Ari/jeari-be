@@ -1,11 +1,15 @@
 package com.jeari.entity;
 
+import com.jeari.dto.ApplicationAnswer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,16 +22,18 @@ public class JoinRequest {
     private Integer id;
 
     @NotNull
-    @Column(name = "recruitment_id", nullable = false)
-    private Integer recruitmentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recruitment_id", nullable = false)
+    private Recruitment recruitment;
 
     @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @NotNull
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private String answer;
+    private List<ApplicationAnswer> answers;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

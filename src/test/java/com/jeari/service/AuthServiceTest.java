@@ -46,7 +46,7 @@ class AuthServiceTest {
         // then (결과)
         User foundUser = userRepository.findByStudentId("20201234").orElseThrow();
         assertThat(foundUser.getName()).isEqualTo("테스트유저");
-        assertThat(passwordEncoder.matches("password123", foundUser.getPassword())).isTrue();
+        assertThat(passwordEncoder.matches("password123", foundUser.getPasswordHash())).isTrue();
     }
 
     @Test

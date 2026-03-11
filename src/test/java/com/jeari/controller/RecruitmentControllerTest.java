@@ -1,14 +1,14 @@
-package com.jeari.controller;
-
+import com.jeari.JeAriApplication; // Added import
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jeari.dto.RecruitmentRequest;
+import com.jeari.dto.RecruitmentCreateRequest;
+import com.jeari.dto.QuestionRequest; // Import added
 import com.jeari.service.RecruitmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest; // Modified below
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
+import java.util.List; // Import added
+import java.util.Collections; // Import added
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = JeAriApplication.class) // Modified
 class RecruitmentControllerTest {
 
     @Autowired
@@ -57,16 +59,16 @@ class RecruitmentControllerTest {
         // given
         Integer clubId = 1;
         Integer recruitmentId = 1;
-        RecruitmentRequest request = new RecruitmentRequest(
+        List<QuestionRequest> questions = Collections.emptyList(); // Simplified for debugging
+        RecruitmentCreateRequest request = new RecruitmentCreateRequest(
                 LocalDate.of(2025, 9, 15),
-                LocalDate.of(2025, 9, 30),
-                com.jeari.entity.RecruitmentStatus.OPEN,
+                null, // Simplified for debugging
                 "신입 부원 모집",
                 "열정적인 신입 부원을 모집합니다.",
-                "자기소개"
+                questions
         );
 
-        given(recruitmentService.createRecruitment(eq(clubId), any(RecruitmentRequest.class)))
+        given(recruitmentService.createRecruitment(eq(clubId), any(RecruitmentCreateRequest.class)))
                 .willReturn(recruitmentId);
 
         // when & then
@@ -76,9 +78,9 @@ class RecruitmentControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.recruitmentId").value(recruitmentId));
 
-        ArgumentCaptor<RecruitmentRequest> captor = ArgumentCaptor.forClass(RecruitmentRequest.class);
+        ArgumentCaptor<RecruitmentCreateRequest> captor = ArgumentCaptor.forClass(RecruitmentCreateRequest.class);
         verify(recruitmentService).createRecruitment(eq(clubId), captor.capture());
-        RecruitmentRequest capturedRequest = captor.getValue();
+        RecruitmentCreateRequest capturedRequest = captor.getValue();
         assertThat(capturedRequest.recruitTitle()).isEqualTo(request.recruitTitle());
     }
 }

@@ -1,4 +1,4 @@
-package com.jeari.entity;
+package com.jeari.dto;
 
 public record ApplicationAnswer(
         Integer questionNum,

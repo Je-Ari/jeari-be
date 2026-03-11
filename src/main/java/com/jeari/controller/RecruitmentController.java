@@ -1,20 +1,23 @@
 package com.jeari.controller;
 
-import com.jeari.dto.ApplicationRequest;
+import com.jeari.config.CustomUserDetails;
+import com.jeari.dto.ApplicationSubmitRequest;
 import com.jeari.dto.RecruitmentListResponse;
-import com.jeari.dto.RecruitmentRequest;
+import com.jeari.dto.RecruitmentCreateRequest;
 import com.jeari.service.RecruitmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal; // Added import
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +29,7 @@ public class RecruitmentController {
 
     @PostMapping("/clubs/{clubId}/recruitments")
     @Operation(summary = "모집 공고 작성", description = "모집 공고 생성")
-    public ResponseEntity<?> createRecruitment(@PathVariable Integer clubId, @Valid @RequestBody RecruitmentRequest req) {
+    public ResponseEntity<?> createRecruitment(@PathVariable Integer clubId, @Valid @RequestBody RecruitmentCreateRequest req) {
 
         Integer recruitmentId = recruitmentService.createRecruitment(clubId, req);
 
@@ -49,10 +52,18 @@ public class RecruitmentController {
         return ResponseEntity.ok(recruitmentService.getRecruitment(recruitmentId));
     }
 
-//    @PostMapping("/recruitments/{id}/applications")
-//    public ResponseEntity<?> createApplication(@PathVariable Integer id, @RequestBody ApplicationRequest req) {
-//
-//        return ResponseEntity.ok(recruitmentService.applyToRecruitment(id, req));
-//    }
+    @PostMapping("/recruitments/{recruitmentId}/apply")
+    @Operation(summary = "모집 공고 지원", description = "사용자가 특정 모집 공고에 지원합니다.")
+    public ResponseEntity<Void> applyToRecruitment(
+            @PathVariable Integer recruitmentId,
+            @Valid @RequestBody ApplicationSubmitRequest applicationRequest,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        recruitmentService.applyToRecruitment(recruitmentId, applicationRequest, userDetails);
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .location(URI.create("/users/me"))
+                .build();
+    }
+
 
 }

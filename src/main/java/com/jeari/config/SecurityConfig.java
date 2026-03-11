@@ -35,9 +35,9 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/club/create"
                         ).hasAuthority(UserRole.ROLE_USER.name())
-                        .requestMatchers(
-                                "/clubs/{clubid}/recruitments"
-                        ).hasRole(ClubRole.PRESIDENT.name())
+//                        .requestMatchers(
+//                                "/clubs/{clubid}/recruitments"
+//                        ).hasRole(ClubRole.PRESIDENT.name())
                         .anyRequest().authenticated()
                 );
 
